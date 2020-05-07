@@ -40,7 +40,10 @@ class Load extends Command
             return;
         }
 
-        $snapshot->load($this->option('connection'));
+        $connectionName = $this->option('connection')
+            ?: config('db-snapshots.default_connection')
+            ?? config('database.default');
+        $snapshot->load($connectionName);
 
         $this->info("Snapshot `{$name}` loaded!");
     }
